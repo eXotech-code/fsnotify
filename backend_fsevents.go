@@ -5,6 +5,7 @@ package fsnotify
 
 import (
 	"github.com/fsnotify/fsevents"
+	"log"
 	"sync"
 	"syscall"
 	"time"
@@ -60,7 +61,7 @@ type Watcher struct {
 
 	done               chan struct{}
 	watches            map[string]int // Watched file descriptors (key: path).
-	eventStream        fsevents.EventStream
+	eventStream        *fsevents.EventStream
 	eventStreamStarted bool
 	isClosed           bool
 	mu                 sync.Mutex
@@ -76,6 +77,32 @@ func (w *Watcher) sendEvent(event Event) bool {
 	}
 }
 
+// Converts an fsevents.Event value to a fsnotify.Event value
+// in order to get a portable event value that has the same
+// meaing accross platforms.
+func getPortableEvent(e fsevents.Event) (converted Event) {
+	converted.Name = e.Path
+	f := e.Flags
+
+	if f&fsevents.ItemCreated == fsevents.ItemCreated {
+		converted.Op |= Create
+	}
+	if f&fsevents.ItemRemoved == fsevents.ItemRemoved {
+		converted.Op |= Remove
+	}
+	if f&fsevents.ItemModified == fsevents.ItemModified {
+		converted.Op |= Write
+	}
+	if f&fsevents.ItemRenamed == fsevents.ItemRenamed {
+		converted.Op |= Rename
+	}
+	if f&fsevents.ItemInodeMetaMod == fsevents.ItemInodeMetaMod || f&fsevents.ItemXattrMod == fsevents.ItemXattrMod {
+		converted.Op |= Chmod
+	}
+
+	return
+}
+
 func (w *Watcher) readEvents() {
 	defer func() {
 		close(w.Events)
@@ -83,8 +110,10 @@ func (w *Watcher) readEvents() {
 	}()
 
 	ec := w.eventStream.Events
-	for _, e := range ec {
-		w.sendEvent(e)
+	for eventArr := range ec {
+		for _, e := range eventArr {
+			w.sendEvent(getPortableEvent(e))
+		}
 	}
 }
 
