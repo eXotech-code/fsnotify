@@ -1,4 +1,4 @@
-module github.com/fsnotify/fsnotify
+module github.com/eXotech-code/fsnotify
 
 go 1.17
 
