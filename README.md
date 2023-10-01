@@ -16,7 +16,7 @@ Platform support:
 | FEN                   | illumos    | Supported in main branch                                                  |
 | fanotify              | Linux 5.9+ | [Not yet](https://github.com/fsnotify/fsnotify/issues/114)                |
 | AHAFS                 | AIX        | [aix branch]; experimental due to lack of maintainer and test environment |
-| FSEvents              | macOS      | [fsevents branch]; experimental support added                             |
+| FSEvents              | macOS      | [fsevents branch](https://github.com/eXotech-code/fsnotify/tree/fsevents) |
 | USN Journals          | Windows    | [Needs support in x/sys/windows][usn]                                     |
 | Polling               | *All*      | [Not yet](https://github.com/fsnotify/fsnotify/issues/9)                  |
 
