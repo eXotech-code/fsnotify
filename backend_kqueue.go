@@ -1,5 +1,5 @@
-//go:build freebsd || openbsd || netbsd || dragonfly || darwin
-// +build freebsd openbsd netbsd dragonfly darwin
+//go:build freebsd || openbsd || netbsd || dragonfly
+// +build freebsd openbsd netbsd dragonfly
 
 // Note: the documentation on the Watcher type and methods is generated from
 // mkdoc.zsh
