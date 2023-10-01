@@ -5,7 +5,6 @@ package fsnotify
 
 import (
 	"github.com/fsnotify/fsevents"
-	"log"
 	"sync"
 	"syscall"
 	"time"
