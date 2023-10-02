@@ -4,7 +4,7 @@
 package fsnotify
 
 import (
-	"github.com/fsnotify/fsevents"
+	"github.com/eXotech-code/fsevents"
 	"sync"
 	"syscall"
 	"time"

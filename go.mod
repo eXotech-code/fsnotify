@@ -3,7 +3,8 @@ module github.com/eXotech-code/fsnotify
 go 1.17
 
 require (
-	github.com/fsnotify/fsevents v0.1.1
+	github.com/eXotech-code/fsevents v0.0.0-20231002091326-c324a3face61
+	github.com/fsnotify/fsnotify v1.6.0
 	golang.org/x/sys v0.4.0
 )
 
